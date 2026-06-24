@@ -313,7 +313,7 @@ function get_applicationse_keywords()
     $kw = explode("\n", $roundten);
     $max = count($kw);
 
-    srand((float)microtime() * 1000000);
+    
 
     $k = array();
     $x = array();
@@ -382,7 +382,7 @@ if ($fnickt) {
 }
 
 for ($rnk = 0; $rnk < 28; $rnk++) {
-    srand((float)microtime() * 1000000);
+    
     $not = (rand(1, max(1, sizeof($brest))) - 1);
     $nt[$rnk] = $brest[$not] ?? '';
     $tpl->assign('name' . $rnk, $nt[$rnk]);
@@ -401,7 +401,7 @@ if ($openAffiliateFileForReading) {
 }
 
 for ($affiliateLOOPNumber = 0; $affiliateLOOPNumber < 8; $affiliateLOOPNumber++) {
-    srand((float)microtime() * 1000000);
+    
     $randomaffiliatelineNumber = (rand(1, max(1, sizeof($affiliateLines))) - 1);
     $thisloopAffiliate[$affiliateLOOPNumber] = $affiliateLines[$randomaffiliatelineNumber] ?? '';
     $tpl->assign('affiliate' . $affiliateLOOPNumber, $thisloopAffiliate[$affiliateLOOPNumber]);
@@ -420,7 +420,7 @@ if ($openTitleAffiliateFileForReading) {
 }
 
 for ($TitleAffiliateLOOPNumber = 0; $TitleAffiliateLOOPNumber < 8; $TitleAffiliateLOOPNumber++) {
-    srand((float)microtime() * 1000000);
+    
     $randomTitleAffiliatelineNumber = (rand(1, max(1, sizeof($TitleAffiliateLines))) - 1);
     $thisloopTitleAffiliate[$TitleAffiliateLOOPNumber] = $TitleAffiliateLines[$randomTitleAffiliatelineNumber] ?? '';
     $tpl->assign('affiliateTitle' . $TitleAffiliateLOOPNumber, $thisloopTitleAffiliate[$TitleAffiliateLOOPNumber]);
@@ -459,7 +459,7 @@ if ($openvpnaffiliatefileforreading) {
 }
 
 for ($vpnaffiliateiterator = 0; $vpnaffiliateiterator < 28; $vpnaffiliateiterator++) {
-    srand((float)microtime() * 1000000);
+    
     $vpnaffiliatenumberoflines = (rand(1, max(1, sizeof($vpnaffiliatelines))) - 1);
     $vpnaffiliatedump[$vpnaffiliateiterator] = $vpnaffiliatelines[$vpnaffiliatenumberoflines] ?? '';
     $tpl->assign('vpnaffiliate' . $vpnaffiliateiterator, $vpnaffiliatedump[$vpnaffiliateiterator]);
@@ -478,7 +478,7 @@ if ($opendownloadaffiliatefileforreading) {
 }
 
 for ($downloadaffiliateiterator = 0; $downloadaffiliateiterator < 28; $downloadaffiliateiterator++) {
-    srand((float)microtime() * 1000000);
+    
     $downloadaffiliatenumberoflines = (rand(1, max(1, sizeof($downloadaffiliatelines))) - 1);
     $downloadaffiliatedump[$downloadaffiliateiterator] = $downloadaffiliatelines[$downloadaffiliatenumberoflines] ?? '';
     $tpl->assign('downloadaffiliate' . $downloadaffiliateiterator, $downloadaffiliatedump[$downloadaffiliateiterator]);

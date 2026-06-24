@@ -300,7 +300,7 @@ function set_keywords()
 
 			$kw = explode("\n", $roundten);
 			$max = count($kw);
-			srand((float)microtime() * 1000000);
+			
 			$k = array();
 			$x = array();
 			$i = 0;
@@ -359,7 +359,7 @@ function set_keywords()
 		fclose($fnickt);
 		//Making numbered uploaders names
 		for ($rnk = 0; $rnk < 28; $rnk++) {
-			srand((float)microtime() * 1000000);
+			
 			$not = (rand(1, sizeof($brest)) - 1);
 			$nt[$rnk] = $brest[$not];
 			$tpl->assign('name' . $rnk, $nt[$rnk]);
@@ -372,7 +372,7 @@ function set_keywords()
 		fclose($openAffiliateFileForReading);
 		//Making numbered affiliate links
 		for ($affiliateLOOPNumber = 0; $affiliateLOOPNumber < 8; $affiliateLOOPNumber++) {
-			srand((float)microtime() * 1000000);
+			
 			$randomaffiliatelineNumber = (rand(1, sizeof($affiliateLines)) - 1);
 			$thisloopAffiliate[$affiliateLOOPNumber] = $affiliateLines[$randomaffiliatelineNumber];
 			$tpl->assign('affiliate' . $affiliateLOOPNumber, $thisloopAffiliate[$affiliateLOOPNumber]);
@@ -386,7 +386,7 @@ function set_keywords()
 		fclose($openTitleAffiliateFileForReading);
 		//Making numbered affiliate titles
 		for ($TitleAffiliateLOOPNumber = 0; $TitleAffiliateLOOPNumber < 8; $TitleAffiliateLOOPNumber++) {
-			srand((float)microtime() * 1000000);
+			
 			$randomTitleAffiliatelineNumber = (rand(1, sizeof($TitleAffiliateLines)) - 1);
 			$thisloopTitleAffiliate[$TitleAffiliateLOOPNumber] = $TitleAffiliateLines[$randomTitleAffiliatelineNumber];
 			$tpl->assign('affiliateTitle' . $TitleAffiliateLOOPNumber, $thisloopTitleAffiliate[$TitleAffiliateLOOPNumber]);
@@ -422,7 +422,7 @@ function set_keywords()
 		$vpnaffiliatelines = explode("\n", $readthevpnaffiliatefile);
 		fclose($openvpnaffiliatefileforreading);
 		for ($vpnaffiliateiterator = 0; $vpnaffiliateiterator < 28; $vpnaffiliateiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$vpnaffiliatenumberoflines = (rand(1, sizeof($vpnaffiliatelines)) - 1);
 			$vpnaffiliatedump[$vpnaffiliateiterator] = $vpnaffiliatelines[$vpnaffiliatenumberoflines];
 			$tpl->assign('vpnaffiliate' . $vpnaffiliateiterator, $vpnaffiliatedump[$vpnaffiliateiterator]);
@@ -434,7 +434,7 @@ function set_keywords()
 		$commentslines = explode("\n", $readthecommentsfile);
 		fclose($opencommentsfileforreading);
 		for ($commentsiterator = 0; $commentsiterator < 28; $commentsiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$commentsnumberoflines = (rand(1, sizeof($commentslines)) - 1);
 			$commentsdump[$commentsiterator] = $commentslines[$commentsnumberoflines];
 			$tpl->assign('authorcomment' . $commentsiterator, $commentsdump[$commentsiterator]);
@@ -446,7 +446,7 @@ function set_keywords()
 		$randomhashlines = explode("\n", $readtherandomhashfile);
 		fclose($openrandomhashfileforreading);
 		for ($randomhashiterator = 0; $randomhashiterator < 28; $randomhashiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$randomhashnumberoflines = (rand(1, sizeof($randomhashlines)) - 1);
 			$randomhashdump[$randomhashiterator] = $randomhashlines[$randomhashnumberoflines];
 			$tpl->assign('randomhash' . $randomhashiterator, strtoupper($randomhashdump[$randomhashiterator]));
@@ -459,7 +459,7 @@ function set_keywords()
 		$downloadaffiliatelines = explode("\n", $readthedownloadaffiliatefile);
 		fclose($opendownloadaffiliatefileforreading);
 		for ($downloadaffiliateiterator = 0; $downloadaffiliateiterator < 28; $downloadaffiliateiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$downloadaffiliatenumberoflines = (rand(1, sizeof($downloadaffiliatelines)) - 1);
 			$downloadaffiliatedump[$downloadaffiliateiterator] = $downloadaffiliatelines[$downloadaffiliatenumberoflines];
 			$tpl->assign('downloadaffiliate' . $downloadaffiliateiterator, $downloadaffiliatedump[$downloadaffiliateiterator]);
@@ -472,7 +472,7 @@ function set_keywords()
 		$tvlines = explode("\n", $readthetvfile);
 		fclose($opentvfileforreading);
 		for ($tviterator = 0; $tviterator < 28; $tviterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$tvnumberoflines = (rand(1, sizeof($tvlines)) - 1);
 			$tvdump[$tviterator] = $tvlines[$tvnumberoflines];
 			$tpl->assign('tvgroup' . $tviterator, $tvdump[$tviterator]);
@@ -485,7 +485,7 @@ function set_keywords()
 		$xxxlines = explode("\n", $readthexxxfile);
 		fclose($openxxxfileforreading);
 		for ($xxxiterator = 0; $xxxiterator < 28; $xxxiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$xxxnumberoflines = (rand(1, sizeof($xxxlines)) - 1);
 			$xxxdump[$xxxiterator] = $xxxlines[$xxxnumberoflines];
 			$tpl->assign('xxxgroup' . $xxxiterator, $xxxdump[$xxxiterator]);
@@ -498,7 +498,7 @@ function set_keywords()
 		$riptypelines = explode("\n", $readtheriptypefile);
 		fclose($openriptypefileforreading);
 		for ($riptypeiterator = 0; $riptypeiterator < 28; $riptypeiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$riptypenumberoflines = (rand(1, sizeof($riptypelines)) - 1);
 			$riptypedump[$riptypeiterator] = $riptypelines[$riptypenumberoflines];
 			$tpl->assign('riptype' . $riptypeiterator, $riptypedump[$riptypeiterator]);
@@ -511,7 +511,7 @@ function set_keywords()
 		$gameslines = explode("\n", $readthegamesfile);
 		fclose($opengamesfileforreading);
 		for ($gamesiterator = 0; $gamesiterator < 28; $gamesiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$gamesnumberoflines = (rand(1, sizeof($gameslines)) - 1);
 			$gamesdump[$gamesiterator] = $gameslines[$gamesnumberoflines];
 			$tpl->assign('gamesgroup' . $gamesiterator, $gamesdump[$gamesiterator]);
@@ -524,7 +524,7 @@ function set_keywords()
 		$applines = explode("\n", $readtheappfile);
 		fclose($openappfileforreading);
 		for ($appiterator = 0; $appiterator < 28; $appiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$appnumberoflines = (rand(1, sizeof($applines)) - 1);
 			$appdump[$appiterator] = $applines[$appnumberoflines];
 			$tpl->assign('appgroup' . $appiterator, $appdump[$appiterator]);
@@ -536,7 +536,7 @@ function set_keywords()
 		$musiclines = explode("\n", $readthemusicfile);
 		fclose($openmusicfileforreading);
 		for ($musiciterator = 0; $musiciterator < 28; $musiciterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$musicnumberoflines = (rand(1, sizeof($musiclines)) - 1);
 			$musicdump[$musiciterator] = $musiclines[$musicnumberoflines];
 			$tpl->assign('musicgroup' . $musiciterator, $musicdump[$musiciterator]);
@@ -548,7 +548,7 @@ function set_keywords()
 		$movielines = explode("\n", $readthemoviefile);
 		fclose($openmoviefileforreading);
 		for ($movieiterator = 0; $movieiterator < 28; $movieiterator++) {
-			srand((float)microtime() * 1000000);
+			
 			$movienumberoflines = (rand(1, sizeof($movielines)) - 1);
 			$moviedump[$movieiterator] = $movielines[$movienumberoflines];
 			$tpl->assign('moviegroup' . $movieiterator, $moviedump[$movieiterator]);

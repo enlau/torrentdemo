@@ -250,7 +250,7 @@ function get_moviese_keywords()
     $kw = explode("\n", $roundten);
     $max = count($kw);
 
-    srand((float)microtime() * 1000000);
+     // deprecated
 
     $k = array();
     $x = array();
@@ -308,7 +308,7 @@ if (is_string($nickname) && $nickname !== '' && file_exists($nickname)) {
 $brest = explode("\n", $twonick);
 
 for ($rnk = 0; $rnk < 28; $rnk++) {
-    srand((float)microtime() * 1000000);
+     // deprecated
     $not = (rand(1, max(1, sizeof($brest))) - 1);
     $nt[$rnk] = $brest[$not] ?? '';
     $tpl->assign('name' . $rnk, $nt[$rnk]);
@@ -330,7 +330,7 @@ if (is_string($affiliateFileName) && $affiliateFileName !== '' && file_exists($a
 $affiliateLines = explode("\n", $readAffiliateFile);
 
 for ($affiliateLOOPNumber = 0; $affiliateLOOPNumber < 8; $affiliateLOOPNumber++) {
-    srand((float)microtime() * 1000000);
+     // deprecated
     $randomaffiliatelineNumber = (rand(1, max(1, sizeof($affiliateLines))) - 1);
     $thisloopAffiliate[$affiliateLOOPNumber] = $affiliateLines[$randomaffiliatelineNumber] ?? '';
     $tpl->assign('affiliate' . $affiliateLOOPNumber, $thisloopAffiliate[$affiliateLOOPNumber]);
@@ -352,7 +352,7 @@ if (is_string($affiliatefilenameTitle) && $affiliatefilenameTitle !== '' && file
 $TitleAffiliateLines = explode("\n", $readTitleAffiliateFile);
 
 for ($TitleAffiliateLOOPNumber = 0; $TitleAffiliateLOOPNumber < 8; $TitleAffiliateLOOPNumber++) {
-    srand((float)microtime() * 1000000);
+     // deprecated
     $randomTitleAffiliatelineNumber = (rand(1, max(1, sizeof($TitleAffiliateLines))) - 1);
     $thisloopTitleAffiliate[$TitleAffiliateLOOPNumber] = $TitleAffiliateLines[$randomTitleAffiliatelineNumber] ?? '';
     $tpl->assign('affiliateTitle' . $TitleAffiliateLOOPNumber, $thisloopTitleAffiliate[$TitleAffiliateLOOPNumber]);
@@ -394,7 +394,7 @@ if (is_string($vpnaffiliategroupFile) && $vpnaffiliategroupFile !== '' && file_e
 $vpnaffiliatelines = explode("\n", $readthevpnaffiliatefile);
 
 for ($vpnaffiliateiterator = 0; $vpnaffiliateiterator < 28; $vpnaffiliateiterator++) {
-    srand((float)microtime() * 1000000);
+     // deprecated
     $vpnaffiliatenumberoflines = (rand(1, max(1, sizeof($vpnaffiliatelines))) - 1);
     $vpnaffiliatedump[$vpnaffiliateiterator] = $vpnaffiliatelines[$vpnaffiliatenumberoflines] ?? '';
     $tpl->assign('vpnaffiliate' . $vpnaffiliateiterator, $vpnaffiliatedump[$vpnaffiliateiterator]);
