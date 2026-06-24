@@ -400,7 +400,6 @@ for ($vpnaffiliateiterator = 0; $vpnaffiliateiterator < 28; $vpnaffiliateiterato
     $tpl->assign('vpnaffiliate' . $vpnaffiliateiterator, $vpnaffiliatedump[$vpnaffiliateiterator]);
 }
 
-// rss block start
 /*
 |--------------------------------------------------------------------------
 | RSS block
@@ -411,7 +410,7 @@ ob_start();
 $rss_tags = array('title');
 $rss_item_tag = 'item';
 
-function rss_fetch_content_musice($url)
+function rss_fetch_content_moviese($url)
 {
     if (function_exists('curl_init')) {
         $ch = curl_init();
@@ -442,11 +441,11 @@ function rss_fetch_content_musice($url)
     return false;
 }
 
-function rss_to_array_musice($tag, $array, $url)
+function rss_to_array_moviese($tag, $array, $url)
 {
     $rss_array = array();
 
-    $rssContent = rss_fetch_content_musice($url);
+    $rssContent = rss_fetch_content_moviese($url);
 
     if ($rssContent === false || trim($rssContent) === '') {
         return $rss_array;
@@ -478,7 +477,7 @@ function rss_to_array_musice($tag, $array, $url)
     return $rss_array;
 }
 
-function cleanRss_musice($targetrss, $targetvar)
+function cleanRss_moviese($targetrss, $targetvar)
 {
     $round1 = str_replace("]", "", $targetrss);
     $round2 = str_replace("[", "", $round1);
@@ -495,26 +494,25 @@ function cleanRss_musice($targetrss, $targetvar)
     return $targetvar;
 }
 
-$rss_array = rss_to_array_musice($rss_item_tag, $rss_tags, $musicmainRSS_url);
+$rss_array = rss_to_array_moviese($rss_item_tag, $rss_tags, $moviesmainRSS_url);
 
 for ($rssparser = 0; $rssparser < 26; $rssparser++) {
     $title = $rss_array[$rssparser]['title'] ?? '';
 
     if ($title === '') {
-        $tpl->assign('musicrsstorrentlink' . $rssparser, '');
-        $tpl->assign('musicrsstorrent' . $rssparser, '');
+        $tpl->assign('moviesrsstorrentlink' . $rssparser, '');
+        $tpl->assign('moviesrsstorrent' . $rssparser, '');
         continue;
     }
 
-    $cleanTitle = cleanRss_musice($title, $title);
+    $cleanTitle = cleanRss_moviese($title, $title);
 
-    $tpl->assign('musicrsstorrentlink' . $rssparser, '/music/' . $cleanTitle);
-    $tpl->assign('musicrsstorrent' . $rssparser, $cleanTitle);
+    $tpl->assign('moviesrsstorrentlink' . $rssparser, '/movies/' . $cleanTitle);
+    $tpl->assign('moviesrsstorrent' . $rssparser, $cleanTitle);
 }
 
 ob_clean();
-
-// rss block end
+// movies rss end
 
 /*
 |--------------------------------------------------------------------------
