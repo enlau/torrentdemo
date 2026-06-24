@@ -63,4 +63,3 @@ set_default();
 $tpl->assign('currentPage', $pag);
 $tpl->display('verified.tpl');
 ?>
-``

@@ -1,45 +1,64 @@
 <?php
+
 header("HTTP/1.1 200 OK");
+
 require_once 'functions.php';
 
-$url = explode("/",$REQUEST_URI);
+/*
+|--------------------------------------------------------------------------
+| Get the meaningful URL segment safely
+|--------------------------------------------------------------------------
+*/
+$default_kw = $default_kw ?? 'home';
+$segment = app_last_segment();
 
+/*
+|--------------------------------------------------------------------------
+| Extract keyword + page safely
+|--------------------------------------------------------------------------
+*/
+list($mkw, $pag) = app_extract_keyword_and_page($segment, $default_kw);
 
-
-
-
-
-
-if(preg_match("/-page-/",$url[3])) {
-	$mkw = preg_match("#(.+)-page-#si",$url[3],$matches);
-	$mkw = str_replace('-',' ',$matches[3]);
-} else {
-	$mkw = preg_match("#(.+).html#si",$url[3],$matches);
-	$mkw = str_replace('-',' ',$matches[3]);
+/*
+|--------------------------------------------------------------------------
+| Handle special requests
+|--------------------------------------------------------------------------
+*/
+if ($segment !== '' && preg_match('/\.torrent$/i', $segment)) {
+    if (function_exists('show_rnd_image')) {
+        show_rnd_image();
+    }
+    die;
 }
 
-$pag = preg_match("#-page-(.+).html#si",$url[3],$matches);
-$pag = $matches[3];
-if($pag =='') $pag=1;
-
-
-if($mkw == '') {
-	$mkw = $default_kw;
-	$pag = 1;
+if ($segment === 'images') {
+    if (function_exists('show_rnd_image')) {
+        show_rnd_image();
+    }
+    die;
 }
 
-if(preg_match("/.torrent/",$url[3]) || $url[3] == 'images') {
-	show_rnd_image();die;
-} 
-
-
-if(preg_match('/torrent-archive/',$url[3])) {
-	show_archive();
-	$tpl->display('archive.tpl');
-	die;	
+if ($segment !== '' && preg_match('/torrent-archive/i', $segment)) {
+    if (function_exists('show_archive')) {
+        show_archive();
+    }
+    $tpl->display('archive.tpl');
+    die;
 }
+
+/*
+|--------------------------------------------------------------------------
+| Page-specific data
+|--------------------------------------------------------------------------
+*/
 $pagenumber = ' Page 2';
 $tpl->assign('pnumber', $pagenumber);
-set_default();
 
+/*
+|--------------------------------------------------------------------------
+| Normal rendering
+|--------------------------------------------------------------------------
+*/
+set_default();
+$tpl->assign('currentPage', $pag);
 $tpl->display('phome.tpl');
