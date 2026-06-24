@@ -1,7 +1,8 @@
 <?php
 
 
-class Torrent {
+#[\AllowDynamicProperties] 
+class Torrent { 
 	
 	
 	const timeout = 30;
