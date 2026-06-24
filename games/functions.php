@@ -1091,6 +1091,3 @@ function set_keywords()
 				$tpl->assign('activeButton', $activeButton);
 				break;
 		}
-
-		
-
