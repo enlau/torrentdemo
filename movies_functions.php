@@ -400,6 +400,122 @@ for ($vpnaffiliateiterator = 0; $vpnaffiliateiterator < 28; $vpnaffiliateiterato
     $tpl->assign('vpnaffiliate' . $vpnaffiliateiterator, $vpnaffiliatedump[$vpnaffiliateiterator]);
 }
 
+// rss block start
+/*
+|--------------------------------------------------------------------------
+| RSS block
+|--------------------------------------------------------------------------
+*/
+ob_start();
+
+$rss_tags = array('title');
+$rss_item_tag = 'item';
+
+function rss_fetch_content_musice($url)
+{
+    if (function_exists('curl_init')) {
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($ch, CURLOPT_FOLLOWLOCATION, true);
+        curl_setopt($ch, CURLOPT_CONNECTTIMEOUT, 15);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 20);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
+        curl_setopt($ch, CURLOPT_USERAGENT, 'Mozilla/5.0 RSS Reader');
+
+        $data = curl_exec($ch);
+        $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+        curl_close($ch);
+
+        if ($data !== false && trim($data) !== '' && $httpCode < 400) {
+            return $data;
+        }
+    }
+
+    if (ini_get('allow_url_fopen')) {
+        $data = @file_get_contents($url);
+        if ($data !== false && trim($data) !== '') {
+            return $data;
+        }
+    }
+
+    return false;
+}
+
+function rss_to_array_musice($tag, $array, $url)
+{
+    $rss_array = array();
+
+    $rssContent = rss_fetch_content_musice($url);
+
+    if ($rssContent === false || trim($rssContent) === '') {
+        return $rss_array;
+    }
+
+    libxml_use_internal_errors(true);
+
+    $doc = new DOMDocument();
+    $loaded = $doc->loadXML($rssContent);
+
+    if (!$loaded) {
+        libxml_clear_errors();
+        return $rss_array;
+    }
+
+    libxml_clear_errors();
+
+    foreach ($doc->getElementsByTagName($tag) as $node) {
+        $items = array();
+
+        foreach ($array as $value) {
+            $element = $node->getElementsByTagName($value)->item(0);
+            $items[$value] = $element ? $element->nodeValue : '';
+        }
+
+        $rss_array[] = $items;
+    }
+
+    return $rss_array;
+}
+
+function cleanRss_musice($targetrss, $targetvar)
+{
+    $round1 = str_replace("]", "", $targetrss);
+    $round2 = str_replace("[", "", $round1);
+    $round3 = str_replace("{", "", $round2);
+    $round4 = str_replace("}", "", $round3);
+    $round5 = str_replace("#", "", $round4);
+    $round6 = str_replace("/", "", $round5);
+    $round7 = str_replace("\\", "", $round6);
+    $round8 = str_replace("<", "", $round7);
+    $round9 = str_replace(">", "", $round8);
+
+    $roundten = trim(strip_tags($round9));
+    $targetvar = $roundten;
+    return $targetvar;
+}
+
+$rss_array = rss_to_array_musice($rss_item_tag, $rss_tags, $musicmainRSS_url);
+
+for ($rssparser = 0; $rssparser < 26; $rssparser++) {
+    $title = $rss_array[$rssparser]['title'] ?? '';
+
+    if ($title === '') {
+        $tpl->assign('musicrsstorrentlink' . $rssparser, '');
+        $tpl->assign('musicrsstorrent' . $rssparser, '');
+        continue;
+    }
+
+    $cleanTitle = cleanRss_musice($title, $title);
+
+    $tpl->assign('musicrsstorrentlink' . $rssparser, '/music/' . $cleanTitle);
+    $tpl->assign('musicrsstorrent' . $rssparser, $cleanTitle);
+}
+
+ob_clean();
+
+// rss block end
+
 /*
 |--------------------------------------------------------------------------
 | Footer/current URL block
