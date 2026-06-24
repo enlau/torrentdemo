@@ -175,7 +175,7 @@
 <td class="coll-4 size mob-uploader">{$name9}</td>
 </tr>
 <tr>
-<td class="coll-1 name"><a href="{$link9}" class="icon"><i class="flaticon-check-mark"></i></a><a href="{$link9t}.html">{$tlink9}</a></td>
+<td class="coll-1 name"><a href="{$link9}" class="icon"><i class="flaticon-check-mark"></i></a><a href="{$link9}l">{$tlink9}</a></td>
 <td class="coll-2 seeds">{$rdm9}</td>
 <td class="coll-3 leeches">{$lrdm9}</td>
 <td class="coll-date">{$time10}</td>

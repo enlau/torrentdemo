@@ -243,7 +243,7 @@
                 <tr>
                   <td class="coll-1 name">
                     <a href="{$link9}" class="icon"><i class="flaticon-check-mark"></i></a><a
-                      href="{$link9t}.html">{$tlink9}</a>
+                      href="{$link9}.html">{$tlink9}</a>
                   </td>
                   <td class="coll-2 seeds">{$rdm9}</td>
                   <td class="coll-3 leeches">{$lrdm9}</td>
