@@ -1,7 +1,73 @@
 <?php
-require("../configlicense.php");
 register_globals();
 require_once 'default.php';
+/// 1. added functions 
+
+function app_request_uri()
+{
+    return $_SERVER['REQUEST_URI'] ?? '';
+}
+
+function app_request_path()
+{
+    $path = parse_url(app_request_uri(), PHP_URL_PATH);
+    return is_string($path) ? $path : '';
+}
+
+function app_path_parts()
+{
+    $path = trim(app_request_path(), '/');
+
+    if ($path === '') {
+        return array();
+    }
+
+    return array_values(array_filter(explode('/', $path), 'strlen'));
+}
+
+function app_last_segment()
+{
+    $parts = app_path_parts();
+
+    if (empty($parts)) {
+        return '';
+    }
+
+    return end($parts);
+}
+
+function app_current_script()
+{
+    return basename(app_request_path());
+}
+
+function app_extract_keyword_and_page($segment, $defaultKeyword = 'home')
+{
+    $segment = trim((string)$segment);
+    $mkw = '';
+    $pag = 1;
+
+    if ($segment !== '' && preg_match('/-page-/', $segment)) {
+        preg_match('#(.+)-page-#si', $segment, $matches);
+        $mkw = str_replace('-', ' ', $matches[1] ?? '');
+    } else {
+        preg_match('#(.+)\.html#si', $segment, $matches);
+        $mkw = str_replace('-', ' ', $matches[1] ?? '');
+    }
+
+    preg_match('#-page-(\d+)#si', $segment, $matches);
+    $pag = isset($matches[1]) && $matches[1] !== '' ? (int)$matches[1] : 1;
+
+    if ($mkw === '') {
+        $mkw = $defaultKeyword;
+        $pag = 1;
+    }
+
+    return array($mkw, $pag);
+}
+
+
+// end adding functions
 function register_globals($order = 'egpcs')
 {
 	// define a subroutine
@@ -40,7 +106,7 @@ function register_globals($order = 'egpcs')
 
 function unregister_globals()
 {
-	if (ini_get(register_globals)) {
+	if (ini_get('register_globals')) {
 		$array = array('_REQUEST', '_SESSION', '_SERVER', '_ENV', '_FILES');
 		foreach ($array as $value) {
 			foreach ($GLOBALS[$value] as $key => $var) {
@@ -55,175 +121,9 @@ function unregister_globals()
 
 // BEGINING L
 
-function popeye_check_license($licensekey, $localkey = '')
-{
-
-
-	$whmcsurl = 'https://www.getfrank.app/members/';
-	$licensing_secret_key = 'OTg3eXQ0M2dod3JlZmRzOTc2ZnJ2MjR0NzM0OTBqb3RybjRmag';
-	$localkeydays = 15;
-	$allowcheckfaildays = 5;
-
-	$check_token = time() . md5(mt_rand(100000000, mt_getrandmax()) . $licensekey);
-	$checkdate = date("Ymd");
-	$domain = $_SERVER['SERVER_NAME'];
-	$usersip = isset($_SERVER['SERVER_ADDR']) ? $_SERVER['SERVER_ADDR'] : $_SERVER['LOCAL_ADDR'];
-	$dirpath = dirname(__FILE__);
-	$verifyfilepath = 'modules/servers/licensing/verify.php';
-	$localkeyvalid = false;
-	if ($localkey) {
-		$localkey = str_replace("\n", '', $localkey); # Remove the line breaks
-		$localdata = substr($localkey, 0, strlen($localkey) - 32); # Extract License Data
-		$md5hash = substr($localkey, strlen($localkey) - 32); # Extract MD5 Hash
-		if ($md5hash == md5($localdata . $licensing_secret_key)) {
-			$localdata = strrev($localdata); # Reverse the string
-			$md5hash = substr($localdata, 0, 32); # Extract MD5 Hash
-			$localdata = substr($localdata, 32); # Extract License Data
-			$localdata = base64_decode($localdata);
-			$localkeyresults = json_decode($localdata, true);
-			$originalcheckdate = $localkeyresults['checkdate'];
-			if ($md5hash == md5($originalcheckdate . $licensing_secret_key)) {
-				$localexpiry = date("Ymd", mktime(0, 0, 0, date("m"), date("d") - $localkeydays, date("Y")));
-				if ($originalcheckdate > $localexpiry) {
-					$localkeyvalid = true;
-					$results = $localkeyresults;
-					$validdomains = explode(',', $results['validdomain']);
-					if (!in_array($_SERVER['SERVER_NAME'], $validdomains)) {
-						$localkeyvalid = false;
-						$localkeyresults['status'] = "Invalid";
-						$results = array();
-					}
-					$validips = explode(',', $results['validip']);
-					if (!in_array($usersip, $validips)) {
-						$localkeyvalid = false;
-						$localkeyresults['status'] = "Invalid";
-						$results = array();
-					}
-					$validdirs = explode(',', $results['validdirectory']);
-					if (!in_array($dirpath, $validdirs)) {
-						$localkeyvalid = false;
-						$localkeyresults['status'] = "Invalid";
-						$results = array();
-					}
-				}
-			}
-		}
-	}
-	if (!$localkeyvalid) {
-		$responseCode = 0;
-		$postfields = array(
-			'licensekey' => $licensekey,
-			'domain' => $domain,
-			'ip' => $usersip,
-			'dir' => $dirpath,
-		);
-		if ($check_token) $postfields['check_token'] = $check_token;
-		$query_string = '';
-		foreach ($postfields as $k => $v) {
-			$query_string .= $k . '=' . urlencode($v) . '&';
-		}
-		if (function_exists('curl_exec')) {
-			$ch = curl_init();
-			curl_setopt($ch, CURLOPT_URL, $whmcsurl . $verifyfilepath);
-			curl_setopt($ch, CURLOPT_POST, 1);
-			curl_setopt($ch, CURLOPT_POSTFIELDS, $query_string);
-			curl_setopt($ch, CURLOPT_TIMEOUT, 30);
-			curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-			$data = curl_exec($ch);
-			$responseCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-			curl_close($ch);
-		} else {
-			$responseCodePattern = '/^HTTP\/\d+\.\d+\s+(\d+)/';
-			$fp = @fsockopen($whmcsurl, 80, $errno, $errstr, 5);
-			if ($fp) {
-				$newlinefeed = "\r\n";
-				$header = "POST " . $whmcsurl . $verifyfilepath . " HTTP/1.0" . $newlinefeed;
-				$header .= "Host: " . $whmcsurl . $newlinefeed;
-				$header .= "Content-type: application/x-www-form-urlencoded" . $newlinefeed;
-				$header .= "Content-length: " . @strlen($query_string) . $newlinefeed;
-				$header .= "Connection: close" . $newlinefeed . $newlinefeed;
-				$header .= $query_string;
-				$data = $line = '';
-				@stream_set_timeout($fp, 20);
-				@fputs($fp, $header);
-				$status = @socket_get_status($fp);
-				while (!@feof($fp) && $status) {
-					$line = @fgets($fp, 1024);
-					$patternMatches = array();
-					if (
-						!$responseCode
-						&& preg_match($responseCodePattern, trim($line), $patternMatches)
-					) {
-						$responseCode = (empty($patternMatches[1])) ? 0 : $patternMatches[1];
-					}
-					$data .= $line;
-					$status = @socket_get_status($fp);
-				}
-				@fclose($fp);
-			}
-		}
-		if ($responseCode != 200) {
-			$localexpiry = date("Ymd", mktime(0, 0, 0, date("m"), date("d") - ($localkeydays + $allowcheckfaildays), date("Y")));
-			if ($originalcheckdate > $localexpiry) {
-				$results = $localkeyresults;
-			} else {
-				$results = array();
-				$results['status'] = "Invalid";
-				$results['description'] = "Remote Check Failed";
-				return $results;
-			}
-		} else {
-			preg_match_all('/<(.*?)>([^<]+)<\/\\1>/i', $data, $matches);
-			$results = array();
-			foreach ($matches[1] as $k => $v) {
-				$results[$v] = $matches[2][$k];
-			}
-		}
-		if (!is_array($results)) {
-			die("Invalid License Server Response");
-		}
-		if ($results['md5hash']) {
-			if ($results['md5hash'] != md5($licensing_secret_key . $check_token)) {
-				$results['status'] = "Invalid";
-				$results['description'] = "MD5 Checksum Verification Failed";
-				return $results;
-			}
-		}
-		if ($results['status'] == "Active") {
-			$results['checkdate'] = $checkdate;
-			$data_encoded = json_encode($results);
-			$data_encoded = base64_encode($data_encoded);
-			$data_encoded = md5($checkdate . $licensing_secret_key) . $data_encoded;
-			$data_encoded = strrev($data_encoded);
-			$data_encoded = $data_encoded . md5($data_encoded . $licensing_secret_key);
-			$data_encoded = wordwrap($data_encoded, 80, "\n", true);
-			$results['localkey'] = $data_encoded;
-		}
-		$results['remotecheck'] = true;
-	}
-	unset($postfields, $data, $matches, $whmcsurl, $licensing_secret_key, $checkdate, $usersip, $localkeydays, $allowcheckfaildays, $md5hash);
-	return $results;
-}
-
-
-if (0 == filesize($licfile)) {
-	$locallicensefile = fopen("$licfile", "w");
-	$results = popeye_check_license($licensekey, $localkey);
-	$getThekey = $results['localkey'];
-	fwrite($locallicensefile, $getThekey);
-	fclose($locallicensefile);
-} else {
-
-	$locallicensefile = file_get_contents("$licfile");
-	$localkey = $locallicensefile;
-}
-
-$results = popeye_check_license($licensekey, $localkey);
 
 
 // Interpret response
-switch ($results['status']) {
-	case "Active":
 
 
 		function set_default()
@@ -302,66 +202,84 @@ switch ($results['status']) {
 
 			$tpl->assign('sm', $x);
 		}
+/// 2. replacing show archive
+	function show_archive()
+{
+    global $tpl, $keyword_file;
 
-		function show_archive()
-		{
+    $segment = app_last_segment();
 
-			global $tpl, $url, $keyword_file;
-			$archive = preg_match("#torrent-archive(.+).html#si", $url[2], $matches);
-			$archive = $matches[1];
-			$tpl->assign('title', 'Torrent Archive ' . $archive);
-			$contents = rf($keyword_file);
-			$kw = explode("\n", $contents);
-			$max = count($kw);
-			$x = array();
-			$j = 0;
-			for ($i = 200 * ($archive - 1); $i < 2000 * $archive; $i++) {
+    preg_match("#torrent-archive(.+)\.html#si", $segment, $matches);
+    $archive = $matches[1] ?? '1';
 
-				if ($kw[$i]) {
-					$x[$j]['kw'] = $kw[$i];
-					$x[$j]['title'] = $kw[$i];
-					$x[$j]['lnk'] = str_replace(' ', '-', $kw[$i]);
-					$j++;
-				}
-			}
+    if ($archive === '') {
+        $archive = '1';
+    }
 
-			$tpl->assign('sm', $x);
-			$tpl->assign('keyword', 'Torrent Archive ' . $archive);
-			$tpl->assign('kw', 'Torrent Archive');
-			$tpl->assign('metacnt', 'Torrent Archive');
-			$tpl->assign('metakw', 'Torrent Archive');
-		}
-		function set_keywords()
-		{
+    $archiveNumber = (int)preg_replace('/\D+/', '', $archive);
+    if ($archiveNumber < 1) {
+        $archiveNumber = 1;
+    }
 
-			global $tpl, $url, $keyword_file;
-			$kw = get_keywords();
-			$url = str_replace('-', ' ', $url[2]);
-			$url = str_replace('.html', '', $url);
-			$tpl->assign('kwlnk', str_replace(' ', '-', $kw[0]) . '.html');
-			$tpl->assign('kw', $url);
-			$tpl->assign('kwalt', $url);
-			$tpl->assign('kwimg', str_replace(' ', '-', $url) . '.torrent');
+    $tpl->assign('title', 'Torrent Archive ' . $archiveNumber);
 
+    $contents = rf($keyword_file);
+    $kw = explode("\n", $contents);
 
+    $x = array();
+    $j = 0;
 
-			for ($i = 1; $i <= 6; $i++) {
+    for ($i = 200 * ($archiveNumber - 1); $i < 2000 * $archiveNumber; $i++) {
+        if (!empty($kw[$i])) {
+            $x[$j]['kw'] = $kw[$i];
+            $x[$j]['title'] = $kw[$i];
+            $x[$j]['lnk'] = str_replace(' ', '-', $kw[$i]);
+            $j++;
+        }
+    }
 
-				$tpl->assign('altkw' . $i, $kw[$i]);
-				$tpl->assign('img' . $i, str_replace(' ', '-', $kw[$i]) . '.torrent');
-				$tpl->assign('lnk' . $i, str_replace(' ', '-', $kw[$i]) . '.html');
-			}
+    $tpl->assign('sm', $x);
+    $tpl->assign('keyword', 'Torrent Archive ' . $archiveNumber);
+    $tpl->assign('kw', 'Torrent Archive');
+    $tpl->assign('metacnt', 'Torrent Archive');
+    $tpl->assign('metakw', 'Torrent Archive');
+}
 
+/// ending replacing show archive
 
+// 3 replace set_keywords()
 
-			for ($i = 7; $i <= 11; $i++) {
+function set_keywords()
+{
+    global $tpl, $keyword_file;
 
-				$tpl->assign('kwtxt' . ($i - 6), $kw[$i]);
-				$tpl->assign('kwtitle' . ($i - 6), $kw[$i]);
-				$tpl->assign('kwlnk' . ($i - 6), str_replace(' ', '-', $kw[$i]) . '.html');
-			}
-		}
+    $kw = get_keywords();
+    $segment = app_last_segment();
 
+    $segment = str_replace('-', ' ', $segment);
+    $segment = str_replace('.html', '', $segment);
+
+    $tpl->assign('kwlnk', str_replace(' ', '-', $kw[0]) . '.html');
+    $tpl->assign('kw', $segment);
+    $tpl->assign('kwalt', $segment);
+    $tpl->assign('kwimg', str_replace(' ', '-', $segment) . '.torrent');
+
+    for ($i = 1; $i <= 6; $i++) {
+        $tpl->assign('altkw' . $i, $kw[$i]);
+        $tpl->assign('img' . $i, str_replace(' ', '-', $kw[$i]) . '.torrent');
+        $tpl->assign('lnk' . $i, str_replace(' ', '-', $kw[$i]) . '.html');
+    }
+
+    for ($i = 7; $i <= 11; $i++) {
+        $tpl->assign('kwtxt' . ($i - 6), $kw[$i]);
+        $tpl->assign('kwtitle' . ($i - 6), $kw[$i]);
+        $tpl->assign('kwlnk' . ($i - 6), str_replace(' ', '-', $kw[$i]) . '.html');
+    }
+}
+		
+/// ending replace set keywords
+
+/// 4 fix get keywords, php 8 deprecation - filet sanitize
 		function get_keywords()
 		{
 
@@ -378,7 +296,7 @@ switch ($results['status']) {
 			$round7 = str_replace("\\", " ", $round6);
 			$round8 = str_replace("<", " ", $round7);
 			$round9 = str_replace(">", " ", $round8);
-			$roundten = filter_var($round9, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$roundten = trim(strip_tags($round9));
 
 			$kw = explode("\n", $roundten);
 			$max = count($kw);
@@ -779,6 +697,8 @@ switch ($results['status']) {
 		}
 		$rssfeed = rss_to_array($rss_item_tag, $rss_tags, $rss_url);
 		print_r($rssfeed);
+		
+	/// 6 replace round 10 filter sanitize
 		function cleanRss($targetrss, $targetvar)
 		{
 			$round1 = str_replace("]", "", $targetrss);
@@ -790,7 +710,8 @@ switch ($results['status']) {
 			$round7 = str_replace("\\", "", $round6);
 			$round8 = str_replace("<", "", $round7);
 			$round9 = str_replace(">", "", $round8);
-			$roundten = filter_var($round9, FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+			$roundten = trim(strip_tags($round9));
+
 			$targetvar = $roundten;
 			return $targetvar;
 		}
@@ -834,13 +755,11 @@ switch ($results['status']) {
 			return $contents;
 		}
 		// set right footer button
-		$r = $_SERVER['REQUEST_URI'];
-		$r = explode('/', $r);
-		$r = array_filter($r);
-		$r = array_merge($r, array());
-		$r = preg_replace('/\?.*/', '', $r);
+	
+	/// replace with function	
+	
+	$endofurl = app_current_script();
 
-		$endofurl = $r[1];
 
 		switch ($endofurl) {
 
@@ -1172,18 +1091,3 @@ switch ($results['status']) {
 				$tpl->assign('activeButton', $activeButton);
 				break;
 		}
-
-		break;
-	case "Invalid":
-		die("License key is Invalid");
-		break;
-	case "Expired":
-		die("License key is Expired");
-		break;
-	case "Suspended":
-		die("License key is Suspended");
-		break;
-	default:
-		die("Invalid Response");
-		break;
-}
