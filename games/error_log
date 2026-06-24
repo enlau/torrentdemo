@@ -1,0 +1,5 @@
+[23-Jun-2026 08:25:03 UTC] PHP Warning:  Undefined variable $localkey in /home/rbgvtenu/torrentdemo.enlau.dev/games/functions.php on line 211
+[23-Jun-2026 08:25:03 UTC] PHP Warning:  Undefined variable $originalcheckdate in /home/rbgvtenu/torrentdemo.enlau.dev/games/functions.php on line 167
+[23-Jun-2026 08:25:03 UTC] PHP Warning:  Undefined array key "localkey" in /home/rbgvtenu/torrentdemo.enlau.dev/games/functions.php on line 212
+[23-Jun-2026 08:25:03 UTC] PHP Warning:  Undefined variable $localkey in /home/rbgvtenu/torrentdemo.enlau.dev/games/functions.php on line 221
+[23-Jun-2026 08:25:04 UTC] PHP Warning:  Undefined variable $originalcheckdate in /home/rbgvtenu/torrentdemo.enlau.dev/games/functions.php on line 167

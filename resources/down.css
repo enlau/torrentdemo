@@ -1,0 +1,232 @@
+.torrent-category-detail ul.dropdown-menu .btn.adfbdbdb {
+  padding: 0 4px 0 50px;
+  box-shadow: none;
+}
+
+ul.dropdown-menu .btn.adfbdbdb .icon i {
+  line-height: 1;
+}
+
+.btn.adfbdbdb {
+  position: relative;
+  padding: 4px 4px 4px 50px;
+  font-size: 15px;
+  width: 100%;
+  font-family: "Oswald Bold", sans-serif;
+  text-transform: uppercase;
+  box-shadow: 0 5px 0 rgba(0, 0, 0, 0.5);
+  border-radius: 3px;
+}
+
+.movie-torrent .torrent-download .adfbdbdb {
+  min-width: 200px;
+}
+
+.movie-torrent .torrent-download .left .adfbdbdb {
+  width: inherit;
+}
+
+.movie-torrent .torrent-download .right .btn.adfbdbdb {
+  width: auto;
+}
+
+.btn-dccacfad {
+  background-color: #e00000;
+  color: #fff;
+}
+
+.btn-dccacfad .icon {
+  background-color: #980404;
+}
+
+.btn-dccacfad .icon::after {
+  border-left-color: #980404;
+}
+
+.btn-dccacfad:hover {
+  background-color: #cd0303;
+  color: #fff;
+}
+
+.btn-dccacfad:focus,
+.btn-dccacfad:active:focus {
+  background-color: #8d0808;
+  color: #fff;
+}
+
+.btn-bbdefafa {
+  background-color: #00ceed;
+  color: #fff;
+}
+
+.btn-bbdefafa .icon {
+  background-color: #0f8091;
+}
+
+.btn-bbdefafa .icon::after {
+  border-left-color: #0f8091;
+}
+
+.btn-bbdefafa:hover {
+  background-color: #02bbd7;
+  color: #fff;
+}
+
+.btn-bbdefafa:focus,
+.btn-bbdefafa:active:focus {
+  background-color: #0f7584;
+  color: #fff;
+}
+
+.btn-ccbddece {
+  color: #fff;
+  background-color: #89ad19;
+}
+
+.btn-ccbddece .icon {
+  background-color: #6a8616;
+}
+
+.btn-ccbddece .icon:after {
+  border-left-color: #6a8616;
+}
+
+.btn-ccbddece:hover {
+  color: #fff;
+  background-color: #7fa01a;
+}
+
+.btn-ccbddece:focus,
+.btn-ccbddece:active:focus {
+  color: #fff;
+  background-color: #637d18;
+}
+
+.btn-addeaafc {
+  color: #fff;
+  background-color: #da3a04;
+}
+
+.btn-addeaafc .icon {
+  background-color: #962e08;
+}
+
+.btn-addeaafc .icon:after {
+  border-left-color: #962e08;
+}
+
+.btn-addeaafc:hover {
+  color: #fff;
+  background-color: #c73707;
+}
+
+.btn-addeaafc:focus,
+.btn-addeaafc:active:focus {
+  color: #fff;
+  background-color: #962e08;
+}
+
+.btn-ffbdffff {
+  color: #fff;
+  background-color: #f34104;
+}
+
+.btn-ffbdffff .icon {
+  background-color: #c13403;
+}
+
+.btn-ffbdffff .icon:after {
+  border-left-color: #c13403;
+}
+
+.btn-ffbdffff:hover {
+  color: #fff;
+  background-color: #c73707;
+}
+
+.btn-ffbdffff:focus,
+.btn-ffbdffff:active:focus {
+  color: #fff;
+  background-color: #c13403;
+}
+
+
+
+
+.dabeeedc {
+          position: relative;
+          top: -6px;
+          color: #fff;
+          font-size: 12px;
+          border-radius: 0 0 5px 5px;
+          background: url('./images/notfication-bg.png') repeat 0 0;
+          background-color: #5fa2d7;
+          transition: all .2s ease;
+        }
+
+        .dabeeedc:hover {
+          background: url('./images/notfication-bg.png') repeat 0 0;
+          background-color: #5795c4;
+        }
+
+        .dabeeedc a:hover {
+          text-decoration: underline;
+        }
+
+        .dabeeedc:active {
+          background: url('./images/notfication-bg.png') repeat 0 0;
+          background-color: #236597;
+        }
+
+        .dabeeedc .icon {
+          color: #fff;
+          display: block;
+          height: 100%;
+          left: 0;
+          position: absolute;
+          top: 0;
+          padding-top: 4px;
+          width: 40px;
+          text-align: center;
+          border-radius: 0 0 0 5px;
+          background: url('./images/notfication-bg.png') repeat 0 0;
+          background-color: #236597;
+        }
+
+.dabeeedc .icon i {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin-left: -24%;
+  margin-top: -30%;
+}
+
+.dabeeedc a {
+  color: #fff;
+  display: inline-block;
+  padding: 18px 0 11px 66px;
+}
+
+.flaticon-bcafddab:before {
+  content: "\f15c";
+}
+
+.flaticon-bbcbbf:before {
+  content: "\f1a0";
+}
+
+.flaticon-acbaafdc:before {
+  content: "\f194";
+}
+
+.flaticon-febadcff:before {
+  content: "\f18e";
+}
+
+.flaticon-efaadbde:before {
+  content: "\f185";
+}
+
+.flaticon-cebadfcd:before {
+  content: "\f125";
+}

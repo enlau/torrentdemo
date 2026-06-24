@@ -1,0 +1,27 @@
+
+
+
+
+RewriteEngine On
+
+
+ErrorDocument 404 /applications/download.php
+Addhandler application/x-httpd-php .tpl 
+
+php_value allow_url_fopen On
+
+
+
+
+# -FrontPage-
+
+
+
+
+
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+
+
+AddType application/x-bittorrent torrent
+
+

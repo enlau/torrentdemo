@@ -1,0 +1,24 @@
+
+
+
+RewriteEngine On
+
+
+ErrorDocument 404 /tv-shows/download.php
+
+
+
+
+
+# -FrontPage-
+
+
+
+
+
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+
+
+AddType application/x-bittorrent torrent
+
+

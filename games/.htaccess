@@ -1,0 +1,8 @@
+
+RewriteEngine On
+ErrorDocument 404 /games/download.php
+
+# -FrontPage-
+
+IndexIgnore .htaccess */.??* *~ *# */HEADER* */README* */_vti*
+AddType application/x-bittorrent torrent
