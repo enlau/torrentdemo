@@ -2,6 +2,10 @@
 
 #error_reporting(0);
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 require_once '../libs/Smarty.class.php';
 
 $tpl            = new Smarty;
@@ -23,7 +27,7 @@ $website = "$domain";
 $tpl->assign('yourwebsite', $website);
 
 // your torrent feed url for adult xxx
-$rss_url = 'https://prbay.top/rss//top100/500';
+$rss_url = 'https://thepiratebay.party/rss/new/501';
 
 $lasttorrent = 1;
 $torrno = 1;

@@ -2,6 +2,10 @@
 
 #error_reporting(0);
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 
 require_once '../libs/Smarty.class.php';
 
@@ -26,7 +30,7 @@ $website = "$domain";
 $tpl->assign('yourwebsite', $website);
 
 // your torrent feed url for tv-shows
-$rss_url = 'https://www.limetorrents.lol/rss/20/'; 
+$rss_url = 'https://thepiratebay.party/rss/new/205'; 
 
 $lasttorrent = 1;
 

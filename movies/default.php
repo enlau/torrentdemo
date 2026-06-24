@@ -2,6 +2,10 @@
 
 #error_reporting(0);
 
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 require_once '../libs/Smarty.class.php';
 
 
@@ -22,7 +26,7 @@ $website = "$domain";
 $tpl->assign('yourwebsite', $website);
 
 // your torrent feed url for movies, you can change this to any torrent feed
-$rss_url = 'https://www.limetorrents.lol/rss/16/';
+$rss_url = 'https://thepiratebay.party/rss/new/201';
 
 $lasttorrent = 1;
 

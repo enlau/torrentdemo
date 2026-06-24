@@ -1,9 +1,13 @@
 <?php
+
+
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+
 #error_reporting(0);
 
 require_once '../libs/Smarty.class.php';
-$tpl			= new Smarty;
-
 
 
 $tpl			= new Smarty;
@@ -15,7 +19,7 @@ $defaulttitle = 'Game Torrents';
 $tpl->assign('mytitle', $defaulttitle);
 
 // your torrent rss feed url for games
-$rss_url = 'https://www.limetorrents.lol/rss/8/'; 
+$rss_url = 'https://thepiratebay.party/rss/new/401'; 
 
 // your website url
 $domain = $_SERVER['HTTP_HOST'];
