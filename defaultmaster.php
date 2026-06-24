@@ -44,12 +44,12 @@ $maxnotorrent = 1;
 // feed bellow. 
 
 // YOUR TORRENT FEED URL FOR HOMEPAGE
-$applicationsmainRSS_url = 'https://www.limetorrents.lol/rss/2/';
-$gamesmainRSS_url = 'https://www.limetorrents.lol/rss/8/';
-$moviesmainRSS_url = 'https://www.limetorrents.lol/rss/16/';
-$tvshowsmainRSS_url = 'https://www.limetorrents.lol/rss/20/';
-$musicmainRSS_url = 'https://www.limetorrents.lol/rss/17/';
-$xxxmainRSS_url = 'https://prbay.top/rss//top100/500';
+$applicationsmainRSS_url = 'https://thepiratebay.party/rss/top100/301';
+$gamesmainRSS_url = 'https://thepiratebay.party/rss/top100/401';
+$moviesmainRSS_url = 'https://thepiratebay.party/rss/top100/202';
+$tvshowsmainRSS_url = 'https://thepiratebay.party/rss/top100/205';
+$musicmainRSS_url = 'https://thepiratebay.party/rss/top100/101';
+$xxxmainRSS_url = 'https://thepiratebay.party/rss/top100/502';
 
 
 
