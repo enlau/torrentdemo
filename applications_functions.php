@@ -151,15 +151,19 @@ if (!function_exists('applicationse_extract_keyword_and_page')) {
 */
 function set_default_applicationse()
 {
-    global $tpl, $url, $mkw, $kwl, $kwsp, $track_id;
+    global $tpl, $url, $mkw, $kwl, $kwsp, $track_id, $defaulttitle;
+
+    $mkw  = (string)($mkw ?? ($defaulttitle ?? ''));
+    $kwl  = (string)($kwl ?? '');
+    $kwsp = (string)($kwsp ?? '');
 
     $kw = get_applicationse_keywords();
 
     for ($i = 0; $i < 28; $i++) {
         $a1 = "applink$i";
         $a2 = "apptlink$i";
-        $tpl->assign($a1, '/applications/' . str_replace(' ', '-', $kw[$i]) . '.html');
-        $tpl->assign($a2, $kw[$i]);
+        $tpl->assign($a1, '/applications/' . str_replace(' ', '-', $kw[$i] ?? '') . '.html');
+        $tpl->assign($a2, $kw[$i] ?? '');
     }
 
     $tpl->assign('keyword', $mkw);
@@ -175,13 +179,13 @@ function set_default_applicationse()
     $tpl->assign('kwl', $kwl);
     $tpl->assign('kwsp', $kwsp);
 
-    if (preg_match("/ other info/", $mkw)) {
+    if ($mkw !== '' && preg_match("/ other info/", $mkw)) {
         $kwrel = str_replace('-other-info', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' other info', '', $mkw);
-    } elseif (preg_match("/ resources/", $mkw)) {
+    } elseif ($mkw !== '' && preg_match("/ resources/", $mkw)) {
         $kwrel = str_replace('-resources', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' resources', '', $mkw);
-    } elseif (preg_match("/ free tips/", $mkw)) {
+    } elseif ($mkw !== '' && preg_match("/ free tips/", $mkw)) {
         $kwrel = str_replace('-free-tips', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' free tips', '', $mkw);
     } else {
@@ -192,6 +196,7 @@ function set_default_applicationse()
     $tpl->assign('kwrel', $kwrel);
     $tpl->assign('keywordrel', $keywordrel);
 }
+
 
 function show_archive_applicationse_old()
 {

@@ -57,15 +57,19 @@ if (!function_exists('gamese_last_segment')) {
 */
 function set_default_gamese()
 {
-    global $tpl, $url, $mkw, $kwl, $kwsp, $track_id;
+    global $tpl, $url, $mkw, $kwl, $kwsp, $track_id, $defaulttitle;
+
+    $mkw  = (string)($mkw ?? ($defaulttitle ?? ''));
+    $kwl  = (string)($kwl ?? '');
+    $kwsp = (string)($kwsp ?? '');
 
     $kw = get_gamese_keywords();
 
     for ($i = 0; $i < 28; $i++) {
         $a1 = "gameslink$i";
         $a2 = "gamestlink$i";
-        $tpl->assign($a1, '/games/' . str_replace(' ', '-', $kw[$i]));
-        $tpl->assign($a2, $kw[$i]);
+        $tpl->assign($a1, '/games/' . str_replace(' ', '-', $kw[$i] ?? '') . '.html');
+        $tpl->assign($a2, $kw[$i] ?? '');
     }
 
     $tpl->assign('keyword', $mkw);
@@ -81,13 +85,13 @@ function set_default_gamese()
     $tpl->assign('kwl', $kwl);
     $tpl->assign('kwsp', $kwsp);
 
-    if (preg_match("/ other info/", $mkw)) {
+    if ($mkw !== '' && preg_match("/ other info/", $mkw)) {
         $kwrel = str_replace('-other-info', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' other info', '', $mkw);
-    } elseif (preg_match("/ resources/", $mkw)) {
+    } elseif ($mkw !== '' && preg_match("/ resources/", $mkw)) {
         $kwrel = str_replace('-resources', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' resources', '', $mkw);
-    } elseif (preg_match("/ free tips/", $mkw)) {
+    } elseif ($mkw !== '' && preg_match("/ free tips/", $mkw)) {
         $kwrel = str_replace('-free-tips', '', str_replace(' ', '-', $mkw));
         $keywordrel = str_replace(' free tips', '', $mkw);
     } else {
